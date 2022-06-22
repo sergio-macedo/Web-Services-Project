@@ -3,9 +3,7 @@ package course.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import course.entities.pk.OrderItemPK;
 
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -16,8 +14,15 @@ public class OrderItem implements Serializable {
 
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
+
     private Integer quantity;
     private Double price;
+/*
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+*/
+
 
     public OrderItem() {
 
@@ -36,6 +41,7 @@ public class OrderItem implements Serializable {
     public void setOrder(Order order) {
         id.setOrder(order);
     }
+    @JsonIgnore
     public Product getProduct() {
         return id.getProduct();
     }
