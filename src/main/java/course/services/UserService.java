@@ -2,6 +2,7 @@ package course.services;
 
 import course.entities.User;
 import course.repositories.UserRepository;
+import course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User post(User obj) {
@@ -31,9 +32,9 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {  //there are easier ways to do an Update at the Crud.
-       User entity = repository.getById(id);
-       updateData(entity, obj);
-       return repository.save(entity);
+        User entity = repository.getById(id);
+        updateData(entity, obj);
+        return repository.save(entity);
     }
 
     private void updateData(User entity, User obj) {
